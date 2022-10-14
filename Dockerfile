@@ -3,6 +3,6 @@ COPY package.json ./
 RUN npm install
 COPY . .
 RUN npm install -g firebase-tools
-RUN ember build
+RUN npm run build
 CMD firebase deploy --token ${firebase_token}
-EXPOSE 4200
+EXPOSE 4200	
