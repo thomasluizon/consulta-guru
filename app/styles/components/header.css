@@ -20,7 +20,6 @@
   gap: var(--header-gap);
   font-weight: 500;
   font-size: 0.9rem;
-  padding: 0 0.5em;
 }
 
 .header__nav-wrapper.links {
