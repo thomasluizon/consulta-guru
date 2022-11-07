@@ -7,5 +7,4 @@ export default class Router extends EmberRouter {
 }
 Router.map(function () {
   this.route('consulta-cnpj');
-  this.route('cnpj', { path: '/consulta-cnpj/:cnpj' });
 });
