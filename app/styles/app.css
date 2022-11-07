@@ -3,7 +3,9 @@
 @import './components/header.css';
 @import './components/search-panel.css';
 @import './components/footer.css';
-:root  {
+@import './components/content.css';
+
+:root {
   --wrapper-width: 1085px;
   --panel-box-shadow: 0 3px 10px rgb(0 0 0 / 30%);
   --header-height: 4.5rem;
