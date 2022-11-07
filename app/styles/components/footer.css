@@ -1,0 +1,105 @@
+footer {
+  padding: 4rem 0;
+}
+
+footer {
+  width: var(--wrapper-width);
+  margin: 0 auto;
+  display: flex;
+  gap: 0 1rem;
+}
+
+footer .footer-call,
+footer .footer-links {
+  display: flex;
+}
+
+footer .footer-call {
+  width: 240px;
+  flex-direction: column;
+}
+
+footer .footer-call svg {
+  width: 100px;
+}
+
+footer .footer-call p {
+  font-size: 0.8rem;
+  letter-spacing: 0.2px;
+  color: #1b2738;
+  opacity: 0.8;
+  margin: 1em 0 0.8em;
+}
+
+footer .footer-call a {
+  color: white;
+  background: #0080cc;
+  text-decoration: none;
+  font-weight: 800;
+  width: fit-content;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+footer .footer-call a:hover {
+  scale: 1.01;
+}
+
+footer .footer-call .cls-1-menu {
+  fill: #30c1a5;
+}
+footer .footer-call .cls-2-menu {
+  fill: #002c54;
+}
+
+footer .footer-links {
+  width: 100%;
+  margin-left: 80px;
+  justify-content: space-between;
+}
+
+footer .footer-links ul {
+  width: 33.3%;
+}
+
+footer .footer-links ul li {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #1b2738;
+}
+
+footer .footer-links ul li:first-of-type {
+  margin-bottom: 0.8rem;
+}
+
+footer .footer-links ul li p {
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.footer-link-item a {
+  display: block;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: #1b2738;
+  opacity: 0.75;
+  text-decoration: none;
+  transition: 0.15s all;
+}
+
+.footer-link-item a:hover {
+  opacity: 1;
+  color: #03a9f4;
+}
+
+.footer-link-item a {
+  padding-top: 0.6rem;
+}
+
+@media screen and (max-width: 1110px) {
+  footer {
+    --width-wrapper: 90%;
+  }
+}

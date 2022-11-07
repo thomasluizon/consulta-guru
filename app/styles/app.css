@@ -2,8 +2,8 @@
 @import 'reset.css';
 @import './components/header.css';
 @import './components/search-panel.css';
-
-:root {
+@import './components/footer.css';
+:root  {
   --wrapper-width: 1085px;
   --panel-box-shadow: 0 3px 10px rgb(0 0 0 / 30%);
   --header-height: 4.5rem;
