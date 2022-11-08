@@ -1,4 +1,4 @@
-<header class='header'>
+<header class='header{{if @fixed " fixed" null}}'>
   <nav class='header__nav container'>
     <div class='header__nav-wrapper'>
       <div class='burger'>
@@ -11,9 +11,16 @@
       </LinkTo>
     </div>
     <div class='header__nav-wrapper links'>
-      <a href='https://nfe.io/produtos/' target='_blank' rel="noopener noreferrer">Procurando uma API?</a>
-      <a href='https://nfe.io/consulta-de-dados/' target='_blank' rel="noopener noreferrer">Consultas para
-        sua empresa?</a>
+      <a
+        href='https://nfe.io/produtos/'
+        target='_blank'
+        rel='noopener noreferrer'
+      >Procurando uma API?</a>
+      <a
+        href='https://nfe.io/consulta-de-dados/'
+        target='_blank'
+        rel='noopener noreferrer'
+      >Consultas para sua empresa?</a>
     </div>
   </nav>
 </header>

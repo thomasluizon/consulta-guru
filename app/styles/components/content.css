@@ -106,10 +106,17 @@ main > .container > .wrapper section > p:first-of-type {
   width: 100%;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 1090px) {
   main > .container {
-    width: 90%;
+    --align-width: calc(var(--wrapper-width) - 300px);
   }
+}
+
+@media screen and (max-width: 768px) {
+  main > .container {
+    width: var(--wrapper-width);
+  }
+
   main > .container > .wrapper section h2 {
     text-align: justify;
   }

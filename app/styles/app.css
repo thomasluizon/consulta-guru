@@ -9,6 +9,7 @@
   --wrapper-width: 1085px;
   --panel-box-shadow: 0 3px 10px rgb(0 0 0 / 30%);
   --header-height: 4.5rem;
+  --transition: 0.2s all ease-in-out;
 }
 
 body {
@@ -18,4 +19,10 @@ body {
 .container {
   width: var(--wrapper-width);
   margin: 0 auto;
+}
+
+@media only screen and (max-width: 1090px) {
+  :root {
+    --wrapper-width: 90%;
+  }
 }
