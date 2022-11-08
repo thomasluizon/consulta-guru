@@ -1,0 +1,26 @@
+.loader {
+  --s: 120px;
+  --v: 16px;
+  --c: rgb(222, 222, 222);
+  border: var(--v) solid var(--c);
+  border-top: var(--v) solid #02c2af;
+  border-radius: 50%;
+  width: var(--s);
+  height: var(--s);
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader.small {
+  --s: 20px;
+  --v: 2px;
+  --c: transparent;
+}

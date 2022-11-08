@@ -5,6 +5,7 @@
 @import './components/footer.css';
 @import './components/content.css';
 @import './components/cnpj-data.css';
+@import './components/loader.css';
 
 :root {
   --wrapper-width: 1085px;

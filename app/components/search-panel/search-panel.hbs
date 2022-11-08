@@ -14,7 +14,13 @@
         value={{@cnpj}}
         {{on 'input' @handleCnpj}}
       />
-      <button type='submit'><Svg::Search /></button>
+      <button type='submit'>
+        {{#if @isLoading}}
+          <div class='loader small'></div>
+        {{else}}
+          <Svg::Search />
+        {{/if}}
+      </button>
     </form>
   </div>
 </div>
