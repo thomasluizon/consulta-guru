@@ -169,7 +169,7 @@ export default class ConsultaCnpjController extends Controller {
 
   @action
   queryCnpj(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!this.isLoading) {
       if (!this.validateCnpj(this.cnpj)) {
         this.errorState = true;
@@ -185,10 +185,19 @@ export default class ConsultaCnpjController extends Controller {
         this.isLoading = true;
         fetch(isApi ? url + cleanCnpj : '/api/api.json')
           .then((res) => {
+            if (!res.ok) {
+              this.isLoading = false;
+              this.errorState = true;
+              console.log('CNPJ não encontrado');
+              return;
+            }
+
             this.lastCnpj = cleanCnpj;
             return res.json();
           })
           .then((json) => {
+            if (this.errorState) return;
+
             this.isLoading = false;
             const data = json.legalEntity;
             if (!data) return (this.errorState = true);
@@ -203,7 +212,6 @@ export default class ConsultaCnpjController extends Controller {
             newData.shareCapital = parseShareCapital(data.shareCapital);
 
             this.cnpjData = newData;
-            console.log(this.cnpjData);
             this.loadedCnpj = true;
           });
       }

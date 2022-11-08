@@ -9,7 +9,7 @@
 
 <main>
   {{#if this.loadedCnpj}}
-    oii
+    <CnpjData::CnpjData @cnpjData={{this.cnpjData}} />
   {{else}}
     <Content::Content />
   {{/if}}
