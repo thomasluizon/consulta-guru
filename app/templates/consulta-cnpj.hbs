@@ -1,9 +1,18 @@
 {{page-title 'Consulte dados de um CNPJ'}}
 
-<HeaderWrapper::HeaderWrapper />
+<HeaderWrapper::HeaderWrapper
+  @cnpj={{this.cnpj}}
+  @handleCnpj={{this.handleCnpj}}
+  @queryCnpj={{this.queryCnpj}}
+  @errorState={{this.errorState}}
+/>
 
 <main>
-  <Content::Content />
+  {{#if this.loadedCnpj}}
+    oii
+  {{else}}
+    <Content::Content />
+  {{/if}}
 </main>
 
 <Footer::Footer />
