@@ -1,7 +1,10 @@
 <div class='search-panel{{if @fixed " fixed" null}}'>
   <div class='search-panel-wrapper container'>
     <h1>{{@title}}</h1>
-    <div class='search-panel__input{{if @errorState " alert" null}}'>
+    <form
+      class='search-panel__input{{if @errorState " alert" null}}'
+      {{on 'submit' @queryCnpj}}
+    >
       {{#if @errorState}}
         <Svg::Alert />
       {{/if}}
@@ -11,7 +14,7 @@
         value={{@cnpj}}
         {{on 'input' @handleCnpj}}
       />
-      <button type='button' {{on 'click' @queryCnpj}}><Svg::Search /></button>
-    </div>
+      <button type='submit'><Svg::Search /></button>
+    </form>
   </div>
 </div>

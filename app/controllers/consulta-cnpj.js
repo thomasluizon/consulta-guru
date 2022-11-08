@@ -35,6 +35,71 @@ const parseCnpj = (cnpj) => {
   return null;
 };
 
+const parseShareCapital = (val) => {
+  const numString = val.toString();
+
+  return (
+    numString
+      .split('')
+      .reverse()
+      .map((e, i) => {
+        if (i == 0) return e;
+        return i % 3 == 0 ? e + '.' : e;
+      })
+      .reverse()
+      .join('') + ',00'
+  );
+};
+
+const parseEconomicActivities = (activitiesArr) => {
+  const parsedActivitiesArr = activitiesArr.map((e) => {
+    e.code = e.code
+      .split('')
+      .map((e, i) => {
+        switch (i) {
+          case 4:
+            e = `-${e}`;
+            break;
+          case 5:
+            e = `/${e}`;
+            break;
+        }
+        return e;
+      })
+      .join('');
+    return e;
+  });
+
+  const activitiesObj = {
+    main: parsedActivitiesArr.filter((e) => e.isMain),
+    secondary: parsedActivitiesArr.filter((e) => !e.isMain),
+  };
+  return activitiesObj;
+};
+
+const parseAddress = (address) => {
+  const addressObj = {
+    address_p1: `${address.streetSuffix ? address.streetSuffix + ' ' : ''}${
+      address.street
+    }, ${address.number}`,
+    address_p2: `${address.district}, ${address.city.name} - ${address.state}`,
+    address_p3: `CEP: ${address.postalCode}`,
+  };
+
+  return addressObj;
+};
+
+const parseLegalNature = (obj) => {
+  return `${obj.code
+    .split('')
+    .map((e, i) => (i == 3 ? '-' + e : e))
+    .join('')} - ${obj.description}`;
+};
+
+const parseDate = (date) => {
+  return date.toISOString().substring(0, 10).split('-').reverse().join('/');
+};
+
 export default class ConsultaCnpjController extends Controller {
   queryParams = ['cnpj'];
   @tracked cnpj = null;
@@ -71,7 +136,6 @@ export default class ConsultaCnpjController extends Controller {
     )
       return false;
 
-    // Valida DVs
     let size = cnpj.length - 2;
     let number = cnpj.substring(0, size);
     let digits = cnpj.substring(size);
@@ -104,7 +168,8 @@ export default class ConsultaCnpjController extends Controller {
   }
 
   @action
-  queryCnpj() {
+  queryCnpj(e) {
+    e.preventDefault();
     if (!this.isLoading) {
       if (!this.validateCnpj(this.cnpj)) {
         this.errorState = true;
@@ -124,8 +189,22 @@ export default class ConsultaCnpjController extends Controller {
             return res.json();
           })
           .then((json) => {
+            this.isLoading = false;
             const data = json.legalEntity;
-            console.log(data);
+            if (!data) return (this.errorState = true);
+            const newData = data;
+            newData.address = parseAddress(data.address);
+            const date = new Date(data.openedOn);
+            newData.openedOn = parseDate(date);
+            newData.legalNature = parseLegalNature(data.legalNature);
+            newData.economicActivities = parseEconomicActivities(
+              data.economicActivities
+            );
+            newData.shareCapital = parseShareCapital(data.shareCapital);
+
+            this.cnpjData = newData;
+            console.log(this.cnpjData);
+            this.loadedCnpj = true;
           });
       }
     }
