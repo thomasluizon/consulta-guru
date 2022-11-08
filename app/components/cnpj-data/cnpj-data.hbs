@@ -1,1 +1,9 @@
-oi
+<div class='container'>
+  <div class='data-wrapper {{if @isLoading "center" null}}'>
+    {{#if @isLoading}}
+      <div class='loader'></div>
+    {{else}}
+      <CnpjData::Content @cnpjData={{@cnpjData}} />
+    {{/if}}
+  </div>
+</div>

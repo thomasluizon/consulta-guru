@@ -8,9 +8,12 @@
   @isLoading={{this.isLoading}}
 />
 
-<main>
+<main class='{{if this.loadedCnpj "" "content"}}'>
   {{#if this.loadedCnpj}}
-    <CnpjData::CnpjData @cnpjData={{this.cnpjData}} />
+    <CnpjData::CnpjData
+      @cnpjData={{this.cnpjData}}
+      @isLoading={{this.isLoading}}
+    />
   {{else}}
     <Content::Content />
   {{/if}}

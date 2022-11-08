@@ -23,6 +23,11 @@ body {
   margin: 0 auto;
 }
 
+.center {
+  display: grid;
+  place-items: center;
+}
+
 @media only screen and (max-width: 1090px) {
   :root {
     --wrapper-width: 90%;

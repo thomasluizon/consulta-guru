@@ -212,6 +212,7 @@ export default class ConsultaCnpjController extends Controller {
             newData.shareCapital = parseShareCapital(data.shareCapital);
 
             this.cnpjData = newData;
+            console.log(this.cnpjData);
             this.loadedCnpj = true;
           });
       }
