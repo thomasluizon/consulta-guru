@@ -180,7 +180,7 @@ export default class ConsultaCnpjController extends Controller {
       const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
       const cleanCnpj = removeNonNumbers(this.cnpj);
       const fetchUrl = url + cleanCnpj;
-      // const mockUrl = '/api/api.json'
+      // const fetchUrl = '/api/api.json'
       if (cleanCnpj !== this.lastCnpj) {
         this.isLoading = true;
         fetch(fetchUrl)
