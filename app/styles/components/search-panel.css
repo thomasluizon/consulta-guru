@@ -35,6 +35,8 @@
 .search-panel.fixed .search-panel-wrapper h1 {
   font-size: 1.1rem;
   margin-bottom: 0;
+  margin-top: 0.8rem;
+  letter-spacing: 1px;
 }
 
 .search-panel__input {
@@ -81,6 +83,8 @@
   background-color: transparent;
   color: #009688;
   outline: none;
+  margin-left: 35px;
+  margin-right: 44px;
 }
 
 .search-panel__input.alert {
@@ -93,11 +97,10 @@
 }
 
 .svg-alert {
-  --s: calc(var(--height) - 26px);
   position: absolute;
   left: 5px;
-  width: var(--s);
-  height: var(--s);
+  width: 24px;
+  height: 24px;
   top: 50%;
   transform: translateY(-50%);
 }
