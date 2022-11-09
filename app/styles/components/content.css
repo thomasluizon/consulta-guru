@@ -4,7 +4,7 @@ main {
 }
 
 main > .container {
-  padding: 7rem 0;
+  padding: 9rem 0 120px;
 }
 
 main.content > .container {
@@ -16,7 +16,7 @@ main.content > .container {
 main.content > .container > .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 4rem 0;
+  gap: 80px;
 }
 
 main.content > .container > .wrapper section h2 {
@@ -26,17 +26,21 @@ main.content > .container > .wrapper section h2 {
   line-height: 2rem;
 }
 
+main.content > .container > .wrapper section {
+  padding-left: 1.3rem;
+}
+
 main.content > .container > .wrapper section > p {
   text-align: justify;
   color: #1b2738;
   font-weight: 400;
-  font-size: 1.1rem;
-  line-height: 1.7rem;
+  font-size: 1.1em;
+  line-height: 1.6em;
   opacity: 0.8;
 }
 
 main.content > .container > .wrapper section > p:first-of-type {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 
 .container-content {
