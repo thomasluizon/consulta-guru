@@ -40,11 +40,7 @@ export default class ConsultaCnpjController extends Controller {
   @service
   router;
   @tracked cnpj = null;
-  @tracked isLoading = false;
-  @tracked loadedCnpj = false;
-  @tracked cnpjData = null;
   @tracked errorState = false;
-  @tracked lastCnpj = null;
 
   set parsedCnpj(str) {
     this.cnpj = parseCnpj(str);
