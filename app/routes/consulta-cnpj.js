@@ -9,8 +9,10 @@ export default class CnpjRoute extends Route {
     super.setupController(controller, ...args);
     if (args[0].cnpj) {
       controller.parsedCnpj = args[0].cnpj;
-      if (controller.validateCnpj(controller.cnpj)) controller.queryCnpj();
-      else controller.cnpjIsWrong = true;
+      if (controller.validateCnpj(controller.cnpj)) {
+        controller.loadedCnpj = true;
+      }
+      controller.queryCnpj();
     }
   }
 }

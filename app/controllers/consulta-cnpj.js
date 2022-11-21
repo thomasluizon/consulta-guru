@@ -101,7 +101,6 @@ const parseDate = (date) => {
 };
 
 export default class ConsultaCnpjController extends Controller {
-  queryParams = ['cnpj'];
   @tracked cnpj = null;
   @tracked isLoading = false;
   @tracked loadedCnpj = false;
