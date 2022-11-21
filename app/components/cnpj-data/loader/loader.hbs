@@ -1,0 +1,11 @@
+<main {{did-insert (fn this.queryCnpj @cnpj)}}>
+  <div class='container'>
+    <div class='data-wrapper {{if this.isLoading "center" null}}'>
+      {{#if this.isLoading}}
+        <div class='loader'></div>
+      {{else}}
+        <CnpjData::Content @cnpjData={{this.cnpjData}} />
+      {{/if}}
+    </div>
+  </div>
+</main>

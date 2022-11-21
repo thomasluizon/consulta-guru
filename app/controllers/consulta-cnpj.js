@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 
 const removeNonNumbers = (str) => {
   return str.replace(/[^0-9]/gi, '');
@@ -35,89 +36,9 @@ const parseCnpj = (cnpj) => {
   return null;
 };
 
-const parseShareCapital = (val) => {
-  const numString = val.toString();
-
-  return (
-    numString
-      .split('')
-      .reverse()
-      .map((e, i) => {
-        if (i == 0) return e;
-        return i % 3 == 0 ? e + '.' : e;
-      })
-      .reverse()
-      .join('') + ',00'
-  );
-};
-
-const parseEconomicActivities = (activitiesArr) => {
-  const parsedActivitiesArr = activitiesArr.map((e) => {
-    e.code = e.code
-      .split('')
-      .map((e, i) => {
-        switch (i) {
-          case 4:
-            e = `-${e}`;
-            break;
-          case 5:
-            e = `/${e}`;
-            break;
-        }
-        return e;
-      })
-      .join('');
-    return e;
-  });
-
-  const activitiesObj = {
-    main: parsedActivitiesArr.filter((e) => e.isMain),
-    secondary: parsedActivitiesArr.filter((e) => !e.isMain),
-  };
-  return activitiesObj;
-};
-
-const parseAddress = (address) => {
-  const addressObj = {
-    address_p1: `${address.streetSuffix ? address.streetSuffix + ' ' : ''}${
-      address.street
-    }, ${address.number}`,
-    address_p2: `${address.district}, ${address.city.name} - ${address.state}`,
-    address_p3: `CEP: ${address.postalCode}`,
-  };
-
-  return addressObj;
-};
-
-const parseLegalNature = (obj) => {
-  return `${obj.code
-    .split('')
-    .map((e, i) => (i == 3 ? '-' + e : e))
-    .join('')} - ${obj.description}`;
-};
-
-const parseDate = (date) => {
-  return date.toISOString().substring(0, 10).split('-').reverse().join('/');
-};
-
-const parsePartners = (partners) => {
-  const obj = {};
-
-  partners.forEach((partner) => {
-    if (!Object.keys(obj).includes(partner.qualification.code)) {
-      const tempObj = {};
-      tempObj.description = partner.qualification.description;
-      tempObj.partners = [partner.name];
-      obj[partner.qualification.code] = tempObj;
-    } else {
-      obj[partner.qualification.code].partners.push(partner.name);
-    }
-  });
-
-  return obj;
-};
-
 export default class ConsultaCnpjController extends Controller {
+  @service
+  router;
   @tracked cnpj = null;
   @tracked isLoading = false;
   @tracked loadedCnpj = false;
@@ -184,56 +105,17 @@ export default class ConsultaCnpjController extends Controller {
   }
 
   @action
-  queryCnpj(e) {
-    if (e) e.preventDefault();
-    if (!this.isLoading) {
-      if (!this.validateCnpj(this.cnpj)) {
-        this.errorState = true;
-        return;
-      }
-
+  routeCnpj(cnpj, e) {
+    e.preventDefault();
+    console.log(cnpj);
+    if (this.validateCnpj(cnpj)) {
       this.errorState = false;
-      const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
-      const cleanCnpj = removeNonNumbers(this.cnpj);
-      const fetchUrl = url + cleanCnpj;
-      // const fetchUrl = '/api/api.json';
-      if (cleanCnpj !== this.lastCnpj) {
-        this.isLoading = true;
-        fetch(fetchUrl)
-          .then((res) => {
-            if (!res.ok) {
-              this.isLoading = false;
-              this.errorState = true;
-              console.log('CNPJ não encontrado');
-              return;
-            }
-
-            this.lastCnpj = cleanCnpj;
-            return res.json();
-          })
-          .then((json) => {
-            if (this.errorState) return;
-
-            this.isLoading = false;
-            const data = json.legalEntity;
-
-            if (!data) return (this.errorState = true);
-
-            const newData = data;
-            newData.address = parseAddress(data.address);
-            const date = new Date(data.openedOn);
-            newData.openedOn = parseDate(date);
-            newData.legalNature = parseLegalNature(data.legalNature);
-            newData.economicActivities = parseEconomicActivities(
-              data.economicActivities
-            );
-            newData.shareCapital = parseShareCapital(data.shareCapital);
-            newData.partners = parsePartners(data.partners);
-
-            this.cnpjData = newData;
-            this.loadedCnpj = true;
-          });
-      }
+      this.router.transitionTo('consulta-cnpj.index');
+      setTimeout(() => {
+        this.router.transitionTo('consulta-cnpj.cnpj', cnpj);
+      }, 0);
+    } else {
+      this.errorState = true;
     }
   }
 }

@@ -3,20 +3,10 @@
 <HeaderWrapper::HeaderWrapper
   @cnpj={{this.cnpj}}
   @handleCnpj={{this.handleCnpj}}
-  @queryCnpj={{this.queryCnpj}}
   @errorState={{this.errorState}}
-  @isLoading={{this.isLoading}}
+  @routeCnpj={{this.routeCnpj}}
 />
 
-<main class='{{if this.loadedCnpj "" "content"}}'>
-  {{#if this.loadedCnpj}}
-    <CnpjData::CnpjData
-      @cnpjData={{this.cnpjData}}
-      @isLoading={{this.isLoading}}
-    />
-  {{else}}
-    <Content::Content />
-  {{/if}}
-</main>
+{{outlet}}
 
 <Footer::Footer />

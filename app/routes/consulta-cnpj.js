@@ -5,14 +5,14 @@ export default class CnpjRoute extends Route {
     return params;
   }
 
-  setupController(controller, ...args) {
-    super.setupController(controller, ...args);
-    if (args[0].cnpj) {
-      controller.parsedCnpj = args[0].cnpj;
-      if (controller.validateCnpj(controller.cnpj)) {
-        controller.loadedCnpj = true;
-      }
-      controller.queryCnpj();
-    }
-  }
+  //   setupController(controller, ...args) {
+  //     super.setupController(controller, ...args);
+  //     if (args[0].cnpj) {
+  //       controller.parsedCnpj = args[0].cnpj;
+  //       if (controller.validateCnpj(controller.cnpj)) {
+  //         controller.loadedCnpj = true;
+  //       }
+  //       controller.queryCnpj();
+  //     }
+  //   }
 }

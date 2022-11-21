@@ -3,7 +3,7 @@
     <h1>{{@title}}</h1>
     <form
       class='search-panel__input{{if @errorState " alert" null}}'
-      {{on 'submit' @queryCnpj}}
+      {{on 'submit' (fn @routeCnpj @cnpj)}}
     >
       {{#if @errorState}}
         <Svg::Alert />
