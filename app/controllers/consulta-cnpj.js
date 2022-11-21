@@ -100,6 +100,23 @@ const parseDate = (date) => {
   return date.toISOString().substring(0, 10).split('-').reverse().join('/');
 };
 
+const parsePartners = (partners) => {
+  const obj = {};
+
+  partners.forEach((partner) => {
+    if (!Object.keys(obj).includes(partner.qualification.code)) {
+      const tempObj = {};
+      tempObj.description = partner.qualification.description;
+      tempObj.partners = [partner.name];
+      obj[partner.qualification.code] = tempObj;
+    } else {
+      obj[partner.qualification.code].partners.push(partner.name);
+    }
+  });
+
+  return obj;
+};
+
 export default class ConsultaCnpjController extends Controller {
   @tracked cnpj = null;
   @tracked isLoading = false;
@@ -179,7 +196,7 @@ export default class ConsultaCnpjController extends Controller {
       const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
       const cleanCnpj = removeNonNumbers(this.cnpj);
       const fetchUrl = url + cleanCnpj;
-      // const fetchUrl = '/api/api.json'
+      // const fetchUrl = '/api/api.json';
       if (cleanCnpj !== this.lastCnpj) {
         this.isLoading = true;
         fetch(fetchUrl)
@@ -199,7 +216,9 @@ export default class ConsultaCnpjController extends Controller {
 
             this.isLoading = false;
             const data = json.legalEntity;
+
             if (!data) return (this.errorState = true);
+
             const newData = data;
             newData.address = parseAddress(data.address);
             const date = new Date(data.openedOn);
@@ -209,9 +228,9 @@ export default class ConsultaCnpjController extends Controller {
               data.economicActivities
             );
             newData.shareCapital = parseShareCapital(data.shareCapital);
+            newData.partners = parsePartners(data.partners);
 
             this.cnpjData = newData;
-            console.log(this.cnpjData);
             this.loadedCnpj = true;
           });
       }

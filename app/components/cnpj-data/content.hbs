@@ -136,3 +136,24 @@
   <h2>Capital Social</h2>
   <p>R$ {{@cnpjData.shareCapital}}</p>
 </section>
+<section class='content-item'>
+  <h2>Sócios ou Administradores</h2>
+  <div class='content-list-wrapper content-list-wrapper--column'>
+    {{#if @cnpjData.partners}}
+      <ul>
+        {{#each-in @cnpjData.partners as |partner obj|}}
+          <li>
+            <div>
+              <h3>{{partner}} - {{obj.description}}</h3>
+              {{#each obj.partners as |partnerName|}}
+                <p>{{partnerName}}</p>
+              {{/each}}
+            </div>
+          </li>
+        {{/each-in}}
+      </ul>
+    {{else}}
+      <p>Nenhum sócio informado</p>
+    {{/if}}
+  </div>
+</section>
