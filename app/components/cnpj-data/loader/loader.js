@@ -141,8 +141,7 @@ export default class CnpjDataLoaderComponent extends Component {
   @service
   router;
 
-  @tracked
-  isLoading = true;
+  @service global;
 
   @tracked
   cnpjData = null;
@@ -152,21 +151,25 @@ export default class CnpjDataLoaderComponent extends Component {
 
   @action
   queryCnpj(cnpj) {
+    this.global.isLoading = true;
+
     if (!validateCnpj(cnpj)) {
-      console.log('CPF inválido');
+      this.global.error = true;
+      this.global.isLoading = false;
       this.router.transitionTo('consulta-cnpj.index');
+      return;
     }
 
     const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
     const cleanCnpj = removeNonNumbers(cnpj);
-    const fetchUrl = url + cleanCnpj;
-    //  const fetchUrl = '/api/api.json';
+    // const fetchUrl = url + cleanCnpj;
+    const fetchUrl = '/api/api.json';
     if (cleanCnpj !== this.lastCnpj) {
-      this.isLoading = true;
+      this.global.isLoading = true;
       fetch(fetchUrl)
         .then((res) => {
           if (!res.ok) {
-            this.isLoading = false;
+            this.global.isLoading = false;
             console.log('CNPJ não encontrado');
             return;
           }
@@ -175,7 +178,7 @@ export default class CnpjDataLoaderComponent extends Component {
           return res.json();
         })
         .then((json) => {
-          this.isLoading = false;
+          this.global.isLoading = false;
           const data = json.legalEntity;
 
           if (!data) return;
@@ -191,7 +194,7 @@ export default class CnpjDataLoaderComponent extends Component {
           newData.partners = parsePartners(data.partners);
 
           this.cnpjData = newData;
-          this.isLoading = false;
+          this.global.isLoading = false;
         });
     }
   }

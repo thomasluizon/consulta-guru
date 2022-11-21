@@ -3,8 +3,9 @@
 <HeaderWrapper::HeaderWrapper
   @cnpj={{this.cnpj}}
   @handleCnpj={{this.handleCnpj}}
-  @errorState={{this.errorState}}
+  @errorState={{this.global.error}}
   @routeCnpj={{this.routeCnpj}}
+  @isLoading={{this.global.isLoading}}
 />
 
 {{outlet}}

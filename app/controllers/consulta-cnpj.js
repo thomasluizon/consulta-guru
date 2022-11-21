@@ -39,8 +39,8 @@ const parseCnpj = (cnpj) => {
 export default class ConsultaCnpjController extends Controller {
   @service
   router;
+  @service global;
   @tracked cnpj = null;
-  @tracked errorState = false;
 
   set parsedCnpj(str) {
     this.cnpj = parseCnpj(str);
@@ -103,15 +103,14 @@ export default class ConsultaCnpjController extends Controller {
   @action
   routeCnpj(cnpj, e) {
     e.preventDefault();
-    console.log(cnpj);
     if (this.validateCnpj(cnpj)) {
-      this.errorState = false;
+      this.global.error = false;
       this.router.transitionTo('consulta-cnpj.index');
       setTimeout(() => {
         this.router.transitionTo('consulta-cnpj.cnpj', cnpj);
       }, 0);
     } else {
-      this.errorState = true;
+      this.global.error = true;
     }
   }
 }
