@@ -137,6 +137,36 @@ const validateCnpj = (cnpj) => {
 
   return true;
 };
+
+const parseCnpj = (cnpj) => {
+  if (cnpj != null) {
+    const newCnpj = removeNonNumbers(cnpj).substring(0, 14);
+    if (newCnpj.length === 0) return null;
+
+    const returningCpnj = [...newCnpj]
+      .map((e, i) => {
+        switch (i) {
+          case 2:
+            e = `.${e}`;
+            break;
+          case 5:
+            e = `.${e}`;
+            break;
+          case 8:
+            e = `/${e}`;
+            break;
+          case 12:
+            e = `-${e}`;
+            break;
+        }
+        return e;
+      })
+      .join('');
+    return returningCpnj;
+  }
+  return null;
+};
+
 export default class CnpjDataLoaderComponent extends Component {
   @service
   router;
@@ -146,13 +176,13 @@ export default class CnpjDataLoaderComponent extends Component {
   @tracked
   cnpjData = null;
 
-  @tracked
-  cnpj = null;
+  set parsedCnpj(str) {
+    this.global.cnpj = parseCnpj(str);
+  }
 
   @action
   queryCnpj(cnpj) {
-    this.global.isLoading = true;
-
+    this.parsedCnpj = cnpj;
     if (!validateCnpj(cnpj)) {
       this.global.error = true;
       this.global.isLoading = false;
@@ -160,42 +190,44 @@ export default class CnpjDataLoaderComponent extends Component {
       return;
     }
 
-    const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
     const cleanCnpj = removeNonNumbers(cnpj);
+
+    if (cleanCnpj == this.global.lastCnpj) return;
+
+    const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
+
     const fetchUrl = url + cleanCnpj;
-    // const fetchUrl = '/api/api.json';
-    if (cleanCnpj !== this.lastCnpj) {
-      this.global.isLoading = true;
-      fetch(fetchUrl)
-        .then((res) => {
-          if (!res.ok) {
-            this.global.isLoading = false;
-            console.log('CNPJ não encontrado');
-            return;
-          }
+    //  const fetchUrl = '/api/api.json';
 
-          this.lastCnpj = cleanCnpj;
-          return res.json();
-        })
-        .then((json) => {
+    this.global.isLoading = true;
+    fetch(fetchUrl)
+      .then((res) => {
+        if (!res.ok) {
           this.global.isLoading = false;
-          const data = json.legalEntity;
+          console.log('CNPJ não encontrado');
+          return;
+        }
 
-          if (!data) return;
-          const newData = data;
-          newData.address = parseAddress(data.address);
-          const date = new Date(data.openedOn);
-          newData.openedOn = parseDate(date);
-          newData.legalNature = parseLegalNature(data.legalNature);
-          newData.economicActivities = parseEconomicActivities(
-            data.economicActivities
-          );
-          newData.shareCapital = parseShareCapital(data.shareCapital);
-          newData.partners = parsePartners(data.partners);
+        this.global.lastCnpj = cleanCnpj;
+        return res.json();
+      })
+      .then((json) => {
+        const data = json.legalEntity;
 
-          this.cnpjData = newData;
-          this.global.isLoading = false;
-        });
-    }
+        if (!data) return;
+        const newData = data;
+        newData.address = parseAddress(data.address);
+        const date = new Date(data.openedOn);
+        newData.openedOn = parseDate(date);
+        newData.legalNature = parseLegalNature(data.legalNature);
+        newData.economicActivities = parseEconomicActivities(
+          data.economicActivities
+        );
+        newData.shareCapital = parseShareCapital(data.shareCapital);
+        newData.partners = parsePartners(data.partners);
+
+        this.cnpjData = newData;
+        setTimeout(() => (this.global.isLoading = false), 500);
+      });
   }
 }

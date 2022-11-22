@@ -7,4 +7,9 @@ export default class GlobalService extends Service {
 
   @tracked
   isLoading = false;
+
+  @tracked
+  lastCnpj = null;
+
+  @tracked cnpj = null;
 }

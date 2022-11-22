@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 
 const removeNonNumbers = (str) => {
+  if (!str) return;
   return str.replace(/[^0-9]/gi, '');
 };
 
@@ -40,10 +41,9 @@ export default class ConsultaCnpjController extends Controller {
   @service
   router;
   @service global;
-  @tracked cnpj = null;
 
   set parsedCnpj(str) {
-    this.cnpj = parseCnpj(str);
+    this.global.cnpj = parseCnpj(str);
   }
 
   validateCnpj(cnpj) {
@@ -103,11 +103,12 @@ export default class ConsultaCnpjController extends Controller {
   @action
   routeCnpj(cnpj, e) {
     e.preventDefault();
+    if (removeNonNumbers(cnpj) === this.global.lastCnpj) return;
     if (this.validateCnpj(cnpj)) {
       this.global.error = false;
       this.router.transitionTo('consulta-cnpj.index');
       setTimeout(() => {
-        this.router.transitionTo('consulta-cnpj.cnpj', cnpj);
+        this.router.transitionTo('consulta-cnpj.cnpj', removeNonNumbers(cnpj));
       }, 0);
     } else {
       this.global.error = true;
