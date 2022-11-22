@@ -1,5 +1,4 @@
 import Controller from '@ember/controller';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 
@@ -103,7 +102,11 @@ export default class ConsultaCnpjController extends Controller {
   @action
   routeCnpj(cnpj, e) {
     e.preventDefault();
-    if (removeNonNumbers(cnpj) === this.global.lastCnpj) return;
+    if (
+      removeNonNumbers(cnpj) === this.global.lastCnpj ||
+      this.global.isLoading
+    )
+      return;
     if (this.validateCnpj(cnpj)) {
       this.global.error = false;
       this.router.transitionTo('consulta-cnpj.index');

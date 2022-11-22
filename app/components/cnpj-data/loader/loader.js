@@ -192,7 +192,7 @@ export default class CnpjDataLoaderComponent extends Component {
 
     const cleanCnpj = removeNonNumbers(cnpj);
 
-    if (cleanCnpj == this.global.lastCnpj) return;
+    if (cleanCnpj == this.global.lastCnpj || this.global.isLoading) return;
 
     const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
 
@@ -202,13 +202,13 @@ export default class CnpjDataLoaderComponent extends Component {
     this.global.isLoading = true;
     fetch(fetchUrl)
       .then((res) => {
+        this.global.lastCnpj = cleanCnpj;
         if (!res.ok) {
           this.global.isLoading = false;
           console.log('CNPJ não encontrado');
           return;
         }
 
-        this.global.lastCnpj = cleanCnpj;
         return res.json();
       })
       .then((json) => {
