@@ -109,15 +109,19 @@ export default class ConsultaCnpjController extends Controller {
       return;
     if (this.validateCnpj(cnpj)) {
       this.global.error = false;
-      this.router.transitionTo('consulta-cnpj-gratis.index');
-      setTimeout(() => {
-        this.router.transitionTo(
-          'consulta-cnpj-gratis.cnpj',
-          removeNonNumbers(cnpj)
-        );
-      }, 0);
+      transition(cnpj);
     } else {
       this.global.error = true;
     }
   }
+}
+
+function transition(cnpj) {
+  this.router.transitionTo('consulta-cnpj-gratis.index');
+  setTimeout(() => {
+    this.router.transitionTo(
+      'consulta-cnpj-gratis.cnpj',
+      removeNonNumbers(cnpj)
+    );
+  }, 0);
 }
