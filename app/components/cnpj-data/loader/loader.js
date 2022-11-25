@@ -186,7 +186,7 @@ export default class CnpjDataLoaderComponent extends Component {
     if (!validateCnpj(cnpj)) {
       this.global.error = true;
       this.global.isLoading = false;
-      this.router.transitionTo('consulta-cnpj.index');
+      this.router.transitionTo('consulta-cnpj-gratis.index');
       return;
     }
 
