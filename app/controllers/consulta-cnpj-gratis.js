@@ -102,11 +102,12 @@ export default class ConsultaCnpjController extends Controller {
   @action
   routeCnpj(cnpj, e) {
     e.preventDefault();
+
     if (
       removeNonNumbers(cnpj) === this.global.lastCnpj ||
       this.global.isLoading
     )
-      return;
+      return (this.global.error = false);
 
     if (this.validateCnpj(cnpj)) {
       this.global.error = false;
