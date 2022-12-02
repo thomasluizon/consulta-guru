@@ -184,7 +184,6 @@ export default class CnpjDataLoaderComponent extends Component {
   queryCnpj(cnpj) {
     const cleanCnpj = removeNonNumbers(cnpj);
     this.parsedCnpj = cnpj;
-    this.global.lastCnpj = cleanCnpj;
 
     if (!validateCnpj(cnpj)) {
       this.global.error = true;
