@@ -1,4 +1,7 @@
-<main {{did-insert (fn this.queryCnpj @cnpj)}}>
+<main
+  {{did-insert (fn this.queryCnpj @cnpj)}}
+  {{did-update (fn this.queryCnpj @cnpj) @cnpj}}
+>
   <div class='container'>
     <div class='data-wrapper {{if this.global.isLoading "center" null}}'>
       {{#if this.global.isLoading}}

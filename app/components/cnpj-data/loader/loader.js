@@ -182,7 +182,10 @@ export default class CnpjDataLoaderComponent extends Component {
 
   @action
   queryCnpj(cnpj) {
+    const cleanCnpj = removeNonNumbers(cnpj);
     this.parsedCnpj = cnpj;
+    this.global.lastCnpj = cleanCnpj;
+
     if (!validateCnpj(cnpj)) {
       this.global.error = true;
       this.global.isLoading = false;
@@ -190,14 +193,12 @@ export default class CnpjDataLoaderComponent extends Component {
       return;
     }
 
-    const cleanCnpj = removeNonNumbers(cnpj);
-
     if (cleanCnpj == this.global.lastCnpj || this.global.isLoading) return;
 
     const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
 
-    const fetchUrl = url + cleanCnpj;
-    //  const fetchUrl = '/api/api.json';
+    //  const fetchUrl = url + cleanCnpj;
+    const fetchUrl = '/api/api.json';
 
     this.global.isLoading = true;
     fetch(fetchUrl)
