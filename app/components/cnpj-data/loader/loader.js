@@ -176,12 +176,14 @@ export default class CnpjDataLoaderComponent extends Component {
   @tracked
   cnpjData = null;
 
+  @service store;
+
   set parsedCnpj(str) {
     this.global.cnpj = parseCnpj(str);
   }
 
   @action
-  queryCnpj(cnpj) {
+  async queryCnpj(cnpj) {
     const cleanCnpj = removeNonNumbers(cnpj);
     this.parsedCnpj = cnpj;
 
@@ -200,6 +202,11 @@ export default class CnpjDataLoaderComponent extends Component {
     const fetchUrl = '/api/api.json';
 
     this.global.isLoading = true;
+
+    const data = await this.store.findRecord('cnpj', cleanCnpj);
+    console.log(data);
+    console.log('oii');
+
     fetch(fetchUrl)
       .then((res) => {
         this.global.lastCnpj = cleanCnpj;
