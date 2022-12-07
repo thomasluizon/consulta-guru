@@ -196,14 +196,13 @@ export default class CnpjDataLoaderComponent extends Component {
 
     if (cleanCnpj == this.global.lastCnpj || this.global.isLoading) return;
 
-    const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
-
-    //  const fetchUrl = url + cleanCnpj;
+    //  const fetchUrl = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/' + cleanCnpj;
     const fetchUrl = '/api/api.json';
 
     this.global.isLoading = true;
 
     const data = await this.store.findRecord('cnpj', cleanCnpj);
+
     console.log(data);
     console.log('oii');
 
