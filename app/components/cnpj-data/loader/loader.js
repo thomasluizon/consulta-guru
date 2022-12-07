@@ -196,8 +196,8 @@ export default class CnpjDataLoaderComponent extends Component {
 
     const url = 'https://api.nfse.io/LegalEntities/Basicinfo/taxNumber/';
 
-    //  const fetchUrl = url + cleanCnpj;
-    const fetchUrl = '/api/api.json';
+    const fetchUrl = url + cleanCnpj;
+    //  const fetchUrl = '/api/api.json';
 
     this.global.isLoading = true;
     fetch(fetchUrl)
