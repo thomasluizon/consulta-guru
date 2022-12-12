@@ -12,4 +12,6 @@ export default class GlobalService extends Service {
   lastCnpj = null;
 
   @tracked cnpj = null;
+
+  @tracked cnpjData = null;
 }

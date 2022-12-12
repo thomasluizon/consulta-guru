@@ -1,2 +1,17 @@
 {{page-title 'Cnpj'}}
-<CnpjData::Loader::Loader @cnpj={{@model}} />
+<Loader::Loader @cnpj={{@model}} />
+
+<main>
+  <div class='container'>
+    <div class='data-wrapper {{if this.global.isLoading "center" null}}'>
+      {{#if this.global.isLoading}}
+        <div class='loader'></div>
+      {{else}}
+        <CnpjData::Content
+          {{did-update this.global.cnpjData}}
+          @cnpjData={{this.global.cnpjData}}
+        />
+      {{/if}}
+    </div>
+  </div>
+</main>
