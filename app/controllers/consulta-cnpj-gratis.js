@@ -8,7 +8,7 @@ const removeNonNumbers = (str) => {
 };
 
 const parseCnpj = (cnpj) => {
-  if (cnpj != null) {
+  if (cnpj) {
     const newCnpj = removeNonNumbers(cnpj).substring(0, 14);
     if (newCnpj.length === 0) return null;
 
@@ -102,6 +102,7 @@ export default class ConsultaCnpjController extends Controller {
   @action
   routeCnpj(cnpj, e) {
     e.preventDefault();
+    if (!cnpj) return;
 
     if (
       removeNonNumbers(cnpj) === this.global.lastCnpj ||

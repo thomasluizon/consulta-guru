@@ -1,0 +1,7 @@
+<span
+  style='display: none'
+  {{did-insert (fn this.queryCnpj @cnpj)}}
+  {{did-update (fn this.queryCnpj @cnpj) @cnpj}}
+></span>
+
+{{yield this.cnpjData}}
