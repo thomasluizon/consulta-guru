@@ -2,6 +2,7 @@
   style='display: none'
   {{did-insert (fn this.queryCnpj @cnpj)}}
   {{did-update (fn this.queryCnpj @cnpj) @cnpj}}
+  data-test-loader
 ></span>
 
 {{yield this.cnpjData}}
