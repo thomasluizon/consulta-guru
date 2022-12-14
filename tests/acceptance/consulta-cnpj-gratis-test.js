@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
-import { visit, find, waitUntil } from '@ember/test-helpers';
+import { visit, find, waitUntil, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
 module('Acceptance | consulta-cnpj-gratis', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('visiting dynamic sub-route', async function (assert) {
+  test('visiting dynamic sub-route with correct cnpj', async function (assert) {
     await visit('/consulta-cnpj-gratis/00000000000191');
 
     await waitUntil(() => find('[data-test-loader]'));
@@ -20,5 +20,16 @@ module('Acceptance | consulta-cnpj-gratis', function (hooks) {
         '00.000.000/0001-91',
         'CNPJ should be displayed correctly after rendered'
       );
+  });
+
+  test('visiting dynamic sub-route with wrong cnpj', async function (assert) {
+    await visit('/consulta-cnpj-gratis/00000000000321');
+    assert.deepEqual(
+      currentURL(),
+      '/consulta-cnpj-gratis',
+      'current url is /consulta-cnpj-gratis'
+    );
+
+    assert.dom('[data-test-form]').hasClass('alert');
   });
 });
